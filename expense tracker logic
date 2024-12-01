@@ -1,0 +1,112 @@
+Code:
+
+'''
+Basic Python Project by Shahil Dhakal
+Student, BE Software, NCIT
+I will be Creating a simple Personal Expense Tracker that helps you manage daily expenses.
+This project will incorporate all the Python basics I've learned.
+'''
+
+expenses = []
+def addExpenses():
+    print("\nPlease Enter Your Expenses:")
+    name = input("Enter the name of the product: ")
+    category = input("Enter the category of the product (eg; food, bills, etc.): ")
+    amount = input("Enter the total amount(In RS): ")
+
+    expense = {
+        "Name" : name,
+        "Category" : category,
+        "Amount" : amount
+    }
+    expenses.append(expense)
+
+    print("Expense added successfully!")
+
+
+def viewExpenses():
+    print("\nView all expenses:")
+    if len(expenses) == 0:
+        print("You haven't added any expenses yet!")
+    else:
+        for expense in expenses:
+            print(expenses)
+            # print(f"Name: {expense['name']}, Category: {expense['category']}, Amount: {expense['amount']}")
+
+
+def deleteExpenses():
+    if len(expenses) == 0:
+        print("\nNo expenses yet!")
+        return #Exit the deleteExpenses() function immediately
+
+    for i in range(len(expenses)):
+        print(f"{i+1}.", expenses)
+
+    choice = input("\nEnter the expense number to delete: ")
+
+    if choice.isdigit():
+        choice = int(choice)
+        if 1 <= choice <= len(expenses):
+            expenses.pop(choice - 1) #.pop(index) function delets the indexed element
+            print("\nExpense deleted successfully!")
+        else:
+            print("\nInvalid choice. Try again!")
+    else:
+        print("\nPlease enter a valid number")
+
+
+def mainMenu():
+    print("\nWelcome to your personal expense tracker!")
+    print("Here's your services:")
+    print("1.Add Expenses")
+    print("2.View Expenses")
+    print("3.Delete Expenses")
+    print("4.Press any other key to exit!")
+
+
+while True:
+    mainMenu()
+    option = input("What action would you like to perform:")
+
+    if( option == "1"):
+        addExpenses()
+    elif(option == "2"):
+        viewExpenses()
+    elif(option == "3"):
+        deleteExpenses()
+    else:
+        print("Exiting the Program. Goodbye!")
+        break
+------------------------------------------------------------------------------------------------------------------------
+Logic Overview of the Personal Expense Tracker:
+
+1.Initialize Expenses:
+An empty list expenses is used to store all the expense entries.
+
+
+2.Add Expenses Functionality (addExpenses):
+Prompt the user to input the name, category, and amount of an expense.
+Store this information as a dictionary and append it to the expenses list.
+Notify the user of successful addition.
+
+
+3.View Expenses Functionality (viewExpenses):
+If the expenses list is empty, inform the user that no expenses have been added yet.
+Otherwise, loop through the expenses list and display each expense.
+
+
+4.Delete Expenses Functionality (deleteExpenses):
+If no expenses exist, inform the user and exit the function.
+Otherwise, display all expenses with their corresponding index numbers.
+Prompt the user to enter the number of the expense to delete.
+Validate the input; if valid, delete the selected expense using .pop(). If invalid, inform the user.
+
+
+5.Main Menu (mainMenu):
+Display the list of available options: Add, View, Delete expenses, or Exit.
+Loop to keep the program running until the user chooses to exit.
+
+
+6.Program Execution:
+Use an infinite while loop to repeatedly display the menu and handle user inputs.
+Exit the loop and terminate the program when the user selects an invalid option or chooses to quit.
