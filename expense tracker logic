@@ -31,7 +31,7 @@ def viewExpenses():
     else:
         for expense in expenses:
             print(expenses)
-            # print(f"Name: {expense['name']}, Category: {expense['category']}, Amount: {expense['amount']}")
+            # print(f"Name: {expense['Name']}, Category: {expense['Category']}, Amount: {expense['Amount']}")
 
 
 def deleteExpenses():

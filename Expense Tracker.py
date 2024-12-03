@@ -5,47 +5,57 @@ I will be Creating a simple Personal Expense Tracker that helps you manage daily
 This project will incorporate all the Python basics I've learned.
 '''
 
-expenses = []
+import pandas as pd #For reading, writing, and manipulating Excel files.
+import os #To check and manage file operations, such as verifying if the file exists.
+
+FILE_PATH = "expenses.xlsx" #Defines the path of the Excel file where expenses will be stored.
+
+
+if not os.path.exists(FILE_PATH):
+    df = pd.DataFrame(columns=["Name", "Category", "Amount"])
+    df.to_excel(FILE_PATH, index=False)
+
+
 def addExpenses():
     print("\nPlease Enter Your Expenses:")
     name = input("Enter the name of the product: ")
     category = input("Enter the category of the product (eg; food, bills, etc.): ")
     amount = input("Enter the total amount(In RS): ")
 
-    expense = {
-        "Name" : name,
-        "Category" : category,
-        "Amount" : amount
-    }
-    expenses.append(expense)
-
+    df = pd.read_excel(FILE_PATH)
+    new_expense = {"Name": name, "Category": category, "Amount": amount}
+    df = df._append(new_expense, ignore_index=True)
+    df.to_excel(FILE_PATH, index=False)
     print("Expense added successfully!")
 
 
 def viewExpenses():
-    print("\nView all expenses:")
-    if len(expenses) == 0:
-        print("You haven't added any expenses yet!")
-    else:
-        for expense in expenses:
-            print(expenses)
-            # print(f"Name: {expense['name']}, Category: {expense['category']}, Amount: {expense['amount']}")
+    df = pd.read_excel(FILE_PATH)
 
+    if df.empty:
+        print("\nNo expenses yet!")
+
+    else:
+        print(df)
 
 def deleteExpenses():
-    if len(expenses) == 0:
+    df = pd.read_excel(FILE_PATH)
+
+    if df.empty:
         print("\nNo expenses yet!")
         return #Exit the deleteExpenses() function immediately
 
-    for i in range(len(expenses)):
-        print(f"{i+1}.", expenses)
+    print("\nCurrent Expenses:")
+    for i,row in df.iterrows():
+        print(f"{i+1}. Name: {row['Name']}, Category: {row['Category']}, Amount: {row['Amount']}")
 
     choice = input("\nEnter the expense number to delete: ")
 
     if choice.isdigit():
         choice = int(choice)
-        if 1 <= choice <= len(expenses):
-            expenses.pop(choice - 1) #.pop(index) function delets the indexed element
+        if 1 <= choice <= len(df):
+            df = df.drop(df.index[choice - 1])
+            df.to_excel(FILE_PATH, index=False)
             print("\nExpense deleted successfully!")
         else:
             print("\nInvalid choice. Try again!")
@@ -64,7 +74,7 @@ def mainMenu():
 
 while True:
     mainMenu()
-    option = input("What action would you like to perform:")
+    option = input("\nWhat action would you like to perform: ")
 
     if( option == "1"):
         addExpenses()
@@ -73,5 +83,5 @@ while True:
     elif(option == "3"):
         deleteExpenses()
     else:
-        print("Exiting the Program. Goodbye!")
+        print("\nExiting the Program. Goodbye!")
         break
